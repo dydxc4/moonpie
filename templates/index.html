@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="/static/index.js"></script>
+<main class="flex-1 px-margin-mobile md:px-margin-desktop py-lg overflow-y-auto">
+  <div class="mb-8 border-b border-primary/20 pb-4 shadow-[0_4px_10px_-4px_rgba(109,203,250,0.1)]">
+    <h1
+      class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary neon-glow flex items-center gap-3">
+      <span class="material-symbols-outlined text-[32px]">speed</span>
+      SYSTEM_OVERVIEW
+    </h1>
+    <p class="font-code-sm text-code-sm text-primary/70 mt-2 tracking-widest">&gt; INITIALIZING TELEMETRY
+      DATASTREAM...</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-gutter">
+    <!-- CPU Load -->
+    <div class="terminal-card col-span-1 md:col-span-4 p-md flex flex-col">
+      <div
+        class="font-label-caps text-label-caps text-primary flex justify-between items-center mb-4 border-b border-primary/30 pb-2">
+        <div class="flex items-center gap-2">
+          <span
+            class="material-symbols-outlined text-[16px] text-outline-variant drag-handle hover:text-primary transition-colors">drag_indicator</span>
+          <span>[SYS.CPU_LOAD]</span>
+        </div>
+        <span class="material-symbols-outlined text-[16px]">memory</span>
+      </div>
+      <div class="flex-1 flex flex-col items-center justify-center relative py-4">
+        <!-- Simulated Circular Gauge -->
+        <div
+          class="w-24 h-24 rounded-full border-4 border-surface-container relative flex items-center justify-center neon-border"
+          style="border-top-color: #6dcbfa; border-right-color: #6dcbfa; box-shadow: 0 0 15px rgba(109, 203, 250, 0.4), inset 0 0 15px rgba(109, 203, 250, 0.2);">
+          <div id="cpu-usage-percent" class="font-headline-md text-headline-md text-primary neon-glow">45%</div>
+        </div>
+        <div id="core-usage-percents" class="font-code-sm text-code-sm text-on-surface-variant mt-4 w-full flex space-between px-4">
+        </div>
+      </div>
+    </div>
+    <!-- RAM Usage -->
+    <div class="terminal-card col-span-1 md:col-span-4 p-md flex flex-col">
+      <div
+        class="font-label-caps text-label-caps text-tertiary flex justify-between items-center mb-4 border-b border-tertiary/30 pb-2">
+        <div class="flex items-center gap-2">
+          <span
+            class="material-symbols-outlined text-[16px] text-outline-variant drag-handle hover:text-tertiary transition-colors">drag_indicator</span>
+          <span>[SYS.RAM_USAGE]</span>
+        </div>
+        <span class="material-symbols-outlined text-[16px]">storage</span>
+      </div>
+      <div class="flex-1 flex flex-col justify-center gap-4 py-4">
+        <div class="flex justify-between font-code-sm text-code-sm">
+          <span id="ram-usage-totals" class="text-on-surface">3.2 GB / 8.0 GB</span>
+          <span id="ram-usage-percent" class="text-tertiary font-bold neon-glow-tertiary">40%</span>
+        </div>
+        <div
+          class="h-4 w-full bg-surface-container rounded border border-tertiary/40 overflow-hidden relative shadow-[0_0_8px_rgba(194,234,138,0.1)_inset]">
+          <div id="ram-usage-progressbar" class="h-full bg-tertiary shadow-[0_0_15px_#c2ea8a] w-[40%] absolute top-0 left-0"></div>
+          <!-- Scanline overlay on progress bar -->
+          <div class="w-full h-full absolute top-0 left-0"
+            style="background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px);">
+          </div>
+        </div>
+        <div class="font-code-sm text-code-sm text-on-surface-variant text-xs flex justify-between">
+          <span id="swap-usage">Swap: 12MB used</span>
+        </div>
+      </div>
+    </div>
+    <!-- Temperature -->
+    <div class="terminal-card col-span-1 md:col-span-4 p-md flex flex-col">
+      <div
+        class="font-label-caps text-label-caps text-secondary flex justify-between items-center mb-4 border-b border-secondary/30 pb-2">
+        <div class="flex items-center gap-2">
+          <span
+            class="material-symbols-outlined text-[16px] text-outline-variant drag-handle hover:text-secondary transition-colors">drag_indicator</span>
+          <span>[SYS.THERMALS]</span>
+        </div>
+        <span class="material-symbols-outlined text-[16px]">device_thermostat</span>
+      </div>
+      <div class="flex-1 flex flex-col justify-center py-4">
+        <div class="flex items-end gap-2 mb-2">
+          <span id="cpu-temperature" class="font-headline-lg text-headline-lg text-secondary" style="text-shadow: 0 0 8px rgba(255, 180, 169, 0.8), 0 0 15px rgba(255, 180, 169, 0.4);">--°</span>
+          <span class="font-code-sm text-code-sm text-on-surface-variant mb-1">Celsius</span>
+        </div>
+        <div class="w-full flex items-center gap-2">
+          <span class="font-code-sm text-xs text-on-surface-variant">30°</span>
+          <div class="flex-1 h-2 bg-gradient-to-r from-primary via-tertiary to-error rounded border border-outline-variant relative shadow-[0_0_5px_rgba(255,255,255,0.1)]">
+            <!-- Marker -->
+            <div id="cpu-temperature-progressbar" class="absolute h-4 w-1 bg-white top-[-4px] shadow-[0_0_8px_white]" style="left: 0%;"></div>
+          </div>
+          <span class="font-code-sm text-xs text-on-surface-variant">80°</span>
+        </div>
+        <div class="font-code-sm text-code-sm text-on-surface-variant text-xs mt-4" style="display: none;">
+          Fan Status: <span class="text-tertiary neon-glow-tertiary">Active (1200 RPM)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Complex Layout Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-gutter">
+    <!-- Left Column: Storage & Quick Links -->
+    <div class="lg:col-span-1 flex flex-col gap-gutter">
+      <!-- Storage Section -->
+      <div class="terminal-card p-md flex-1">
+        <div
+          class="font-label-caps text-label-caps text-primary flex justify-between items-center mb-4 border-b border-primary/30 pb-2">
+          <div class="flex items-center gap-2">
+            <span
+              class="material-symbols-outlined text-[16px] text-outline-variant drag-handle hover:text-primary transition-colors">drag_indicator</span>
+            <span>[DISK.MOUNTS]</span>
+          </div>
+          <span class="material-symbols-outlined text-[16px]">hard_drive</span>
+        </div>
+        <div class="space-y-4">
+          {% for disk in disks %}
+            <div>
+              <div class="flex justify-between font-code-sm text-code-sm mb-1">
+                <span class="text-on-surface">{{ disk.mount_point }}</span>
+                <span class="text-on-surface-variant">{{ disk.usage.used }} / {{ disk.usage.total }}</span>
+              </div>
+              <div class="h-2 w-full bg-surface-container border border-primary/20 relative">
+                <div class="h-full bg-primary shadow-[0_0_8px_#b3e3ff] w-[{{ disk.usage.percent }}%] absolute top-0 left-0"></div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- Quick Links Grid -->
+      <div class="terminal-card p-md">
+        <div
+          class="font-label-caps text-label-caps text-primary flex justify-between items-center mb-4 border-b border-primary/30 pb-2">
+          <div class="flex items-center gap-2">
+            <span
+              class="material-symbols-outlined text-[16px] text-outline-variant drag-handle hover:text-primary transition-colors">drag_indicator</span>
+            <span>[SRV.SHORTCUTS]</span>
+          </div>
+          <span class="material-symbols-outlined text-[16px]">apps</span>
+        </div>
+        <div class="grid grid-cols-1 gap-sm">
+          <a href=":8096"
+            class="bg-surface-container hover:bg-surface-variant border border-outline-variant/40 hover:border-primary/50 p-3 flex items-center justify-between group transition-all duration-200">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary group-hover:neon-glow">media_link</span>
+              <span
+                class="font-code-sm text-code-sm text-on-surface group-hover:text-primary transition-colors">Jellyfin</span>
+            </div>
+            <span
+              class="font-label-caps text-[10px] text-primary bg-primary/10 border border-primary/30 px-2 py-1 group-hover:bg-primary/20 group-hover:shadow-[0_0_8px_rgba(109,203,250,0.3)]">LAUNCH</span>
+          </a>
+          <a href="/nextcloud/index.php"
+            class="bg-surface-container hover:bg-surface-variant border border-outline-variant/40 hover:border-primary/50 p-3 flex items-center justify-between group transition-all duration-200">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary group-hover:neon-glow">cloud</span>
+              <span
+                class="font-code-sm text-code-sm text-on-surface group-hover:text-primary transition-colors">Nextcloud</span>
+            </div>
+            <span
+              class="font-label-caps text-[10px] text-primary bg-primary/10 border border-primary/30 px-2 py-1 group-hover:bg-primary/20 group-hover:shadow-[0_0_8px_rgba(109,203,250,0.3)]">LAUNCH</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Right Column: Network Monitor & Details -->
+    <div class="lg:col-span-2 flex flex-col gap-gutter">
+      <!-- Network Charts -->
+      <div class="terminal-card p-md flex-1 flex flex-col">
+        <div
+          class="font-label-caps text-label-caps text-primary flex justify-between items-center mb-4 border-b border-primary/30 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px] text-outline-variant drag-handle hover:text-primary transition-colors">drag_indicator</span>
+            <span>[NET.TRAFFIC_IO]</span>
+          </div>
+          <span class="material-symbols-outlined text-[16px]">swap_vert</span>
+        </div>
+        <div
+          class="flex-1 flex flex-col md:flex-row gap-4 chart-grid border border-primary/20 shadow-[inset_0_0_20px_rgba(109,203,250,0.05)] p-2 relative">
+          <!-- Simulated Chart Container -->
+          <div class="flex-1 flex flex-col">
+            <div class="font-code-sm text-xs text-on-surface-variant mb-2">
+              RX: <span id="rx-speed" class="text-primary neon-glow">0 Mbps</span>
+            </div>
+            <div class="flex-1 relative w-full h-32 md:h-full overflow-hidden border-b border-primary/40">
+              <!-- CSS Simulated Sparkline RX -->
+              <svg class="absolute bottom-0 w-full h-full" preserveaspectratio="none"
+                style="filter: drop-shadow(0 0 8px rgba(109,203,250,0.6));" viewbox="0 0 100 100">
+                <path
+                  d="M0,100 L0,80 L10,70 L20,85 L30,60 L40,65 L50,40 L60,55 L70,30 L80,45 L90,20 L100,35 L100,100 Z"
+                  fill="rgba(109, 203, 250, 0.15)" stroke="#6dcbfa" stroke-width="2"
+                  vector-effect="non-scaling-stroke"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="hidden md:block w-px bg-outline-variant/30 h-full shadow-[0_0_5px_rgba(255,255,255,0.1)]">
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="font-code-sm text-xs text-on-surface-variant mb-2">
+              TX: <span id="tx-speed" class="text-tertiary neon-glow-tertiary">0 Mbps</span>
+            </div>
+            <div class="flex-1 relative w-full h-32 md:h-full overflow-hidden border-b border-tertiary/40">
+              <!-- CSS Simulated Sparkline TX -->
+              <svg class="absolute bottom-0 w-full h-full" preserveaspectratio="none"
+                style="filter: drop-shadow(0 0 8px rgba(194,234,138,0.6));" viewbox="0 0 100 100">
+                <path
+                  d="M0,100 L0,90 L10,85 L20,95 L30,70 L40,80 L50,60 L60,75 L70,50 L80,65 L90,40 L100,55 L100,100 Z"
+                  fill="rgba(194, 234, 138, 0.15)" stroke="#c2ea8a" stroke-width="2"
+                  vector-effect="non-scaling-stroke"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Network Details Table -->
+      <div class="terminal-card p-md">
+        <div
+          class="font-label-caps text-label-caps text-primary flex justify-between items-center mb-4 border-b border-primary/30 pb-2">
+          <div class="flex items-center gap-2">
+            <span
+              class="material-symbols-outlined text-[16px] text-outline-variant drag-handle hover:text-primary transition-colors">drag_indicator</span>
+            <span>[NET.INTERFACES]</span>
+          </div>
+          <span class="material-symbols-outlined text-[16px]">lan</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table id="if-table" class="w-full text-left font-code-sm text-code-sm whitespace-nowrap">
+            <thead>
+              <tr class="text-on-surface-variant border-b border-outline-variant/50">
+                <th class="pb-2 font-normal">IFACE</th>
+                <th class="pb-2 font-normal">STATUS</th>
+                <th class="pb-2 font-normal">MAC_ADDR</th>
+                <th class="pb-2 font-normal">IPv4</th>
+                <th class="pb-2 font-normal">IPv6</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for net_if in net_interfaces %}
+                <tr class="border-b border-outline-variant/20 hover:bg-surface-variant/50 transition-colors">
+                  <td class="py-3 text-primary neon-glow">{{ net_if.name }}</td>
+                  <td class="py-3">
+                    {% if net_if.status == 'UP' %}
+                      <span class="px-2 py-0.5 bg-tertiary/10 text-tertiary border border-tertiary/40 shadow-[0_0_8px_rgba(194,234,138,0.2)] text-xs">UP</span>
+                    {% else %}
+                      <span class="px-2 py-0.5 bg-error/10 text-error border border-error/40 shadow-[0_0_8px_rgba(255,180,171,0.2)] text-xs">DOWN</span></td>
+                    {% endif %}
+                  </td>
+                  <td class="py-3 text-on-surface-variant">{{ net_if.mac }}</td>
+                  <td class="py-3">{{ net_if.ipv4 }}</td>
+                  <td class="py-3 text-on-surface-variant">{{ net_if.ipv6 }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

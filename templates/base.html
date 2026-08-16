@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>{% block title %}{% endblock %} - Moonpie</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#1a2436",
+            "primary-container": "#6dcbfa",
+            "on-primary": "#003549",
+            "inverse-surface": "#dde2f3",
+            "on-primary-fixed": "#001e2c",
+            "on-tertiary-container": "#385705",
+            "secondary-fixed": "#ffdad5",
+            "on-tertiary": "#213600",
+            "inverse-primary": "#006688",
+            "surface": "#03050a",
+            "on-secondary-fixed-variant": "#7d2c23",
+            "error-container": "#93000a",
+            "surface-container-low": "#04070d",
+            "surface-tint": "#77d1ff",
+            "on-primary-container": "#005572",
+            "surface-dim": "#03050a",
+            "surface-container-lowest": "#010204",
+            "on-secondary-container": "#ff9a8c",
+            "inverse-on-surface": "#121a2b",
+            "surface-container-high": "#090e1a",
+            "surface-variant": "#0c1322",
+            "on-background": "#dde2f3",
+            "secondary": "#ffb4a9",
+            "on-tertiary-fixed": "#111f00",
+            "outline-variant": "#2b343c",
+            "surface-container-highest": "#101825",
+            "tertiary-fixed": "#c8f08f",
+            "secondary-container": "#7d2c23",
+            "error": "#ffb4ab",
+            "secondary-fixed-dim": "#ffb4a9",
+            "primary-fixed-dim": "#77d1ff",
+            "on-error": "#690005",
+            "on-secondary-fixed": "#400101",
+            "tertiary": "#c2ea8a",
+            "on-surface-variant": "#bec8cf",
+            "on-tertiary-fixed-variant": "#314f00",
+            "on-error-container": "#ffdad6",
+            "tertiary-fixed-dim": "#add376",
+            "primary": "#b3e3ff",
+            "background": "#03050a",
+            "outline": "#6c7882",
+            "primary-fixed": "#c2e8ff",
+            "on-surface": "#dde2f3",
+            "tertiary-container": "#a7cd71",
+            "on-primary-fixed-variant": "#004d68",
+            "on-secondary": "#5e160f",
+            "surface-container": "#060a12"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "md": "16px",
+            "xl": "48px",
+            "xs": "4px",
+            "base": "4px",
+            "sm": "8px",
+            "margin-mobile": "16px",
+            "margin-desktop": "32px",
+            "gutter": "16px",
+            "lg": "24px"
+          },
+          "fontFamily": {
+            "headline-lg": ["JetBrains Mono"],
+            "headline-lg-mobile": ["JetBrains Mono"],
+            "headline-md": ["JetBrains Mono"],
+            "code-sm": ["JetBrains Mono"],
+            "body-lg": ["JetBrains Mono"],
+            "body-sm": ["JetBrains Mono"],
+            "label-caps": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+            "headline-md": ["20px", { "lineHeight": "1.4", "fontWeight": "600" }],
+            "code-sm": ["13px", { "lineHeight": "1.5", "fontWeight": "500" }],
+            "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+            "body-sm": ["14px", { "lineHeight": "1.6", "fontWeight": "400" }],
+            "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #03050a;
+      /* Use surface from config, approx retro theme */
+      background-image: linear-gradient(rgba(3, 5, 10, 0.95), rgba(3, 5, 10, 0.95)), repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.015) 2px, rgba(255, 255, 255, 0.015) 4px);
+      color: #dde2f3;
+      overflow-x: hidden;
+    }
+
+    .neon-glow {
+      text-shadow: 0 0 8px rgba(109, 203, 250, 0.8), 0 0 15px rgba(109, 203, 250, 0.4);
+    }
+
+    .neon-glow-tertiary {
+      text-shadow: 0 0 8px rgba(194, 234, 138, 0.8), 0 0 15px rgba(194, 234, 138, 0.4);
+    }
+
+    .neon-border {
+      border: 1px solid rgba(109, 203, 250, 0.6);
+      box-shadow: 0 0 12px rgba(109, 203, 250, 0.2) inset, 0 0 8px rgba(109, 203, 250, 0.3);
+    }
+
+    .terminal-card {
+      background: rgba(12, 19, 34, 0.8);
+      /* surface-variant approx */
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(109, 203, 250, 0.2);
+      /* outline-variant neon tint */
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .terminal-card:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 10px rgba(109, 203, 250, 0.1) inset;
+      border-color: rgba(109, 203, 250, 0.4);
+    }
+
+    .terminal-card::before,
+    .terminal-card::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-color: rgba(109, 203, 250, 0.8);
+      border-style: solid;
+    }
+
+    .terminal-card::before {
+      top: -1px;
+      left: -1px;
+      border-width: 1px 0 0 1px;
+    }
+
+    .terminal-card::after {
+      bottom: -1px;
+      right: -1px;
+      border-width: 0 1px 1px 0;
+    }
+
+    .chart-grid {
+      background-size: 20px 20px;
+      background-image:
+        linear-gradient(to right, rgba(109, 203, 250, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(109, 203, 250, 0.05) 1px, transparent 1px);
+    }
+
+    .drag-handle {
+      cursor: grab;
+    }
+
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+  </style>
+</head>
+
+<body class="bg-surface font-body-lg text-on-surface min-h-screen flex antialiased">
+  <input class="hidden peer" id="sidebar-toggle" type="checkbox" />
+  <!-- SideNavBar -->
+  <nav
+    class="flex flex-col py-lg bg-surface-container/95 backdrop-blur-md dark:bg-surface-container/95 text-primary dark:text-primary font-code-sm text-code-sm fixed left-0 top-16 h-[calc(100vh-64px)] w-64 border-r border-outline-variant/50 z-40 transition-transform duration-300 -translate-x-full peer-checked:translate-x-0 shadow-[4px_0_20px_rgba(0,0,0,0.5)]">
+    <div class="px-4 mb-8">
+      <div class="font-headline-md text-headline-md text-primary mb-2 neon-glow">ROOT_ACCESS</div>
+      <div class="text-on-surface-variant font-code-sm text-code-sm mb-4">Local-IP: 192.168.1.42</div>
+      <button
+        class="w-full py-2 bg-primary/10 text-primary border border-primary/60 hover:bg-primary/20 hover:neon-border transition-all font-code-sm text-code-sm flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">add</span> NEW_PROCESS
+      </button>
+    </div>
+    <div class="flex-1 overflow-y-auto space-y-1">
+      <a class="bg-primary-container/20 text-primary border-l-4 border-primary px-4 py-3 hover:bg-surface-variant/80 transition-all duration-150 active:translate-x-1 flex items-center gap-3 shadow-[inset_4px_0_10px_rgba(109,203,250,0.1)]"
+        href="{{ url_for('index') }}">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Overview</span>
+      </a>
+      <a class="text-on-surface-variant hover:text-primary hover:neon-glow px-4 py-3 hover:bg-surface-variant/50 transition-all duration-150 active:translate-x-1 flex items-center gap-3 border-l-4 border-transparent"
+        href="#">
+        <span class="material-symbols-outlined">router</span>
+        <span>Network</span>
+      </a>
+      <a class="text-on-surface-variant hover:text-primary hover:neon-glow px-4 py-3 hover:bg-surface-variant/50 transition-all duration-150 active:translate-x-1 flex items-center gap-3 border-l-4 border-transparent"
+        href="#">
+        <span class="material-symbols-outlined">database</span>
+        <span>Storage</span>
+      </a>
+      <a class="text-on-surface-variant hover:text-primary hover:neon-glow px-4 py-3 hover:bg-surface-variant/50 transition-all duration-150 active:translate-x-1 flex items-center gap-3 border-l-4 border-transparent"
+        href="#">
+        <span class="material-symbols-outlined">terminal</span>
+        <span>Services</span>
+      </a>
+      <a class="text-on-surface-variant hover:text-primary hover:neon-glow px-4 py-3 hover:bg-surface-variant/50 transition-all duration-150 active:translate-x-1 flex items-center gap-3 border-l-4 border-transparent"
+        href="#">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Settings</span>
+      </a>
+    </div>
+  </nav>
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 flex flex-col pt-16 pb-12 w-full">
+    <!-- TopNavBar -->
+    <header
+      class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-surface/90 dark:bg-surface/90 backdrop-blur-md border-b border-outline-variant shadow-[0_2px_20px_rgba(0,0,0,0.8),0_0_15px_rgba(119,209,255,0.15)]">
+      <div class="flex items-center gap-4 md:gap-6">
+        <label
+          class="cursor-pointer text-primary hover:text-primary-container transition-colors duration-200 active:scale-95 flex items-center justify-center w-10 h-10 rounded hover:bg-surface-variant/50"
+          for="sidebar-toggle">
+          <span class="material-symbols-outlined text-[24px]">menu</span>
+        </label>
+        <div class="font-headline-md text-headline-md text-primary dark:text-primary tracking-tighter neon-glow">
+          Pi-OS_Admin_v2.0</div>
+        <div
+          class="hidden md:flex items-center gap-4 text-on-surface-variant font-code-sm text-code-sm ml-4 border-l border-outline-variant/30 pl-4">
+          <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span>
+            uptime: 14d 2h</span>
+          <span class="flex items-center gap-1 text-tertiary neon-glow-tertiary"><span
+              class="material-symbols-outlined text-[16px]">thermostat</span> temp: 42°C</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 text-primary dark:text-primary font-body-sm text-body-sm">
+        <button class="hover:text-primary hover:neon-glow transition-all duration-200 cursor-pointer active:scale-95">
+          <span class="material-symbols-outlined">search</span>
+        </button>
+        <button class="hover:text-primary hover:neon-glow transition-all duration-200 cursor-pointer active:scale-95">
+          <span class="material-symbols-outlined">dark_mode</span>
+        </button>
+        <button
+          class="hover:text-primary hover:neon-glow transition-all duration-200 cursor-pointer active:scale-95 relative">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full shadow-[0_0_8px_#ffb4ab]"></span>
+        </button>
+      </div>
+    </header>
+    <!-- Main Canvas -->
+    {% block content %}{% endblock %}
+  </div>
+  <!-- Footer -->
+  <footer
+    class="fixed bottom-0 right-0 w-full flex justify-between items-center px-lg py-sm z-30 bg-surface-container-lowest/90 backdrop-blur dark:bg-surface-container-lowest/90 border-t border-outline-variant/40 text-tertiary dark:text-tertiary font-code-sm text-code-sm shadow-[0_-5px_15px_rgba(0,0,0,0.5)]">
+    <div class="font-label-caps text-label-caps text-on-surface-variant">RPi 5 Model B - 8GB RAM</div>
+    <div class="flex gap-4">
+      <span class="text-outline">Kernel: 6.1.0-rpi7-rpi-v8</span>
+      <span class="text-outline hidden sm:inline">Architecture: aarch64</span>
+    </div>
+  </footer>
+</body>
+
+</html>
