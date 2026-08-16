@@ -13,3 +13,6 @@ def index():
   net_interfaces = get_network_interfaces()
   disks = get_disks()
   return render_template('index.html', net_interfaces=net_interfaces, disks=disks)
+
+if __name__ == '__main__':
+  app.run(debug=True)
