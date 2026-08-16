@@ -1,6 +1,7 @@
 import psutil
 import socket
 import time
+from datetime import datetime, timedelta
 
 # Variable global para registrar bytes previos y calcular velocidad
 _prev_net_io = psutil.net_io_counters()
@@ -20,6 +21,29 @@ def format_size(value):
 
 def format_bitrate(value):
   return f'{round(value, 0)} Mbps'
+
+def format_timedelta(value: timedelta):
+  result = ''
+  seconds = value.seconds
+  hours = int(seconds / 3600)
+  seconds %= 3600
+
+  if value.days > 0:
+    result = f'{value.days}d '
+
+  if hours > 0:
+    result += f'{hours}h '
+
+  minutes = int(seconds / 60)
+  seconds %= 60
+
+  if minutes > 0:
+    result += f'{minutes}m '
+
+  if seconds > 0:
+    result += f'{seconds}s'
+
+  return result.lstrip()
 
 def get_partition_usage(mountpoint: str):
   usage = psutil.disk_usage(mountpoint)
@@ -45,7 +69,7 @@ def get_network_interfaces():
   for iface_name, iface_addrs in addrs.items():
     # Omitir interfaz local (loopback) para optimizar espacio en pantalla
     if iface_name == 'lo':
-        continue
+      continue
 
     is_up = stats[iface_name].isup if iface_name in stats else False
     mac = "N/A"
@@ -133,6 +157,32 @@ def get_system_info():
     'thermal': {
       'cpu': get_cpu_temperature()
     }
+  }
+
+  return data
+
+def get_system_summary():
+  addrs = psutil.net_if_addrs()
+  stats = psutil.net_if_stats()
+  ipv4 = 'UNKNOWN'
+  boot_time = datetime.fromtimestamp(psutil.boot_time())
+  delta = datetime.now() - boot_time
+
+  for iface_name, iface_addrs in addrs.items():
+    is_up = stats[iface_name].isup if iface_name in stats else False
+
+    if iface_name == 'lo' or not is_up:
+      continue
+
+    for addr in iface_addrs:
+      if addr.family == socket.AF_INET:
+        ipv4 = addr.address
+        break
+
+  data = {
+    'cpu_temperature': get_cpu_temperature(),
+    'local_ip': ipv4,
+    'uptime': format_timedelta(delta)
   }
 
   return data

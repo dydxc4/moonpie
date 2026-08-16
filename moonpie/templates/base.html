@@ -103,6 +103,7 @@
       }
     }
   </script>
+  <script src="/static/base.js"></script>
   <style>
     body {
       background-color: #03050a;
@@ -187,11 +188,7 @@
     class="flex flex-col py-lg bg-surface-container/95 backdrop-blur-md dark:bg-surface-container/95 text-primary dark:text-primary font-code-sm text-code-sm fixed left-0 top-16 h-[calc(100vh-64px)] w-64 border-r border-outline-variant/50 z-40 transition-transform duration-300 -translate-x-full peer-checked:translate-x-0 shadow-[4px_0_20px_rgba(0,0,0,0.5)]">
     <div class="px-4 mb-8">
       <div class="font-headline-md text-headline-md text-primary mb-2 neon-glow">ROOT_ACCESS</div>
-      <div class="text-on-surface-variant font-code-sm text-code-sm mb-4">Local-IP: 192.168.1.42</div>
-      <button
-        class="w-full py-2 bg-primary/10 text-primary border border-primary/60 hover:bg-primary/20 hover:neon-border transition-all font-code-sm text-code-sm flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">add</span> NEW_PROCESS
-      </button>
+      <div class="text-on-surface-variant font-code-sm text-code-sm mb-4">Local IP: <span id="local-ip"></span></div>
     </div>
     <div class="flex-1 overflow-y-auto space-y-1">
       <a class="bg-primary-container/20 text-primary border-l-4 border-primary px-4 py-3 hover:bg-surface-variant/80 transition-all duration-150 active:translate-x-1 flex items-center gap-3 shadow-[inset_4px_0_10px_rgba(109,203,250,0.1)]"
@@ -232,14 +229,13 @@
           for="sidebar-toggle">
           <span class="material-symbols-outlined text-[24px]">menu</span>
         </label>
-        <div class="font-headline-md text-headline-md text-primary dark:text-primary tracking-tighter neon-glow">
-          Pi-OS_Admin_v2.0</div>
+        <div class="font-headline-md text-headline-md text-primary dark:text-primary tracking-tighter neon-glow">Moonpie v1.0</div>
         <div
           class="hidden md:flex items-center gap-4 text-on-surface-variant font-code-sm text-code-sm ml-4 border-l border-outline-variant/30 pl-4">
           <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span>
-            uptime: 14d 2h</span>
+            uptime: <span id="uptime"></span></span>
           <span class="flex items-center gap-1 text-tertiary neon-glow-tertiary"><span
-              class="material-symbols-outlined text-[16px]">thermostat</span> temp: 42°C</span>
+              class="material-symbols-outlined text-[16px]">thermostat</span> temp: <span id="cpu-temperature-navbar"></span>°C</span>
         </div>
       </div>
       <div class="flex items-center gap-4 text-primary dark:text-primary font-body-sm text-body-sm">

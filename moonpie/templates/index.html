@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+
 {% block content %}
 <script src="/static/index.js"></script>
 <main class="flex-1 px-margin-mobile md:px-margin-desktop py-lg overflow-y-auto">
@@ -134,26 +136,17 @@
           <span class="material-symbols-outlined text-[16px]">apps</span>
         </div>
         <div class="grid grid-cols-1 gap-sm">
-          <a href=":8096"
-            class="bg-surface-container hover:bg-surface-variant border border-outline-variant/40 hover:border-primary/50 p-3 flex items-center justify-between group transition-all duration-200">
-            <div class="flex items-center gap-3">
-              <span class="material-symbols-outlined text-primary group-hover:neon-glow">media_link</span>
+          {% for link in links %}
+            <a href="{{ link.url }}" class="bg-surface-container hover:bg-surface-variant border border-outline-variant/40 hover:border-primary/50 p-3 flex items-center justify-between group transition-all duration-200">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary group-hover:neon-glow">{{ link.icon }}</span>
+                <span
+                  class="font-code-sm text-code-sm text-on-surface group-hover:text-primary transition-colors">{{ link.title }}</span>
+              </div>
               <span
-                class="font-code-sm text-code-sm text-on-surface group-hover:text-primary transition-colors">Jellyfin</span>
-            </div>
-            <span
-              class="font-label-caps text-[10px] text-primary bg-primary/10 border border-primary/30 px-2 py-1 group-hover:bg-primary/20 group-hover:shadow-[0_0_8px_rgba(109,203,250,0.3)]">LAUNCH</span>
-          </a>
-          <a href="/nextcloud/index.php"
-            class="bg-surface-container hover:bg-surface-variant border border-outline-variant/40 hover:border-primary/50 p-3 flex items-center justify-between group transition-all duration-200">
-            <div class="flex items-center gap-3">
-              <span class="material-symbols-outlined text-primary group-hover:neon-glow">cloud</span>
-              <span
-                class="font-code-sm text-code-sm text-on-surface group-hover:text-primary transition-colors">Nextcloud</span>
-            </div>
-            <span
-              class="font-label-caps text-[10px] text-primary bg-primary/10 border border-primary/30 px-2 py-1 group-hover:bg-primary/20 group-hover:shadow-[0_0_8px_rgba(109,203,250,0.3)]">LAUNCH</span>
-          </a>
+                class="font-label-caps text-[10px] text-primary bg-primary/10 border border-primary/30 px-2 py-1 group-hover:bg-primary/20 group-hover:shadow-[0_0_8px_rgba(109,203,250,0.3)]">LAUNCH</span>
+            </a>
+          {% endfor %}
         </div>
       </div>
     </div>
