@@ -124,13 +124,14 @@ def get_network_speeds():
 
 def get_cpu_temperature():
   temperatures = psutil.sensors_temperatures()
+  value = 0
 
   if 'cpu_thermal' in temperatures:
-    return temperatures['cpu_thermal'][0].current
+    value = temperatures['cpu_thermal'][0].current
   elif 'coretemp' in temperatures:
-    return temperatures['coretemp'][0].current
-  else:
-    return None
+    value = temperatures['coretemp'][0].current
+
+  return round(value, 1)
 
 def get_system_info():
   mem_usage = psutil.virtual_memory()
